@@ -1,49 +1,28 @@
 require 'metronome/version'
-require 'metronome/jobs'
-require 'faraday'
-require 'faraday_middleware'
-require 'jwt'
 
+require 'flexirest'
+require 'metronome/entities/job'
+require 'metronome/entities/run'
+require 'metronome/entities/schedule'
+require 'metronome/entities/metric'
+
+# Configuration for Metronome connection
 module Metronome
-  class Client
-    include Metronome::Jobs
-    def initialize(url, options = {})
-      raise 'You must supply a URL' if url.nil? || url.empty?
-      @connection = Faraday.new(url: url, ssl: { verify: false }) do |c|
-        c.use Faraday::Response::RaiseError
-        c.request :json
-        c.headers['Authorization'] = "token=#{auth_token(options)}"
-        c.path_prefix = '/service/metronome/v1'
-        c.adapter Faraday.default_adapter
-      end
-    end
+  # Configuration for Metronome connection
+  def self.configure(url, options = {})
+    raise 'You must supply a URL' if url.nil? || url.empty?
+    raise 'Missing :token' unless options.key?(:token)
 
-    private
+    Flexirest::Base.base_url = url
 
-    def auth_token(options)
-      return options[:token] if options.key?(:token)
-      if options.key?(:private_key)
-        return post('/acs/api/v1/auth/login', uid: options[:uid],
-                                              token: JWT.encode(
-                                                { 'uid' => options[:uid] },
-                                                OpenSSL::PKey::RSA.new(options[:private_key]),
-                                                'RS256'
-                                              ))
-      end
-      raise 'Missing :password or :token'
-    end
-
-    def get(url, values = nil)
-      JSON.parse(@connection.get(url, values).body)
-    end
-
-    def post(url, body)
-      response = @connection.post(url, body) do |req|
-        req.url url
-        req.headers['Content-Type'] = 'application/json'
-        req.body = body.to_json
-      end
-      JSON.parse(response.body)
+    Flexirest::Base.faraday_config do |c|
+      c.use Faraday::Response::RaiseError
+      c.headers['Content-Type'] = 'application/json'
+      # TODO: add in un/pw validation
+      c.headers['Authorization'] = "token=#{options[:token]}"
+      c.ssl.verify = false # TODO: Remove this
+      c.path_prefix = '/service/metronome'
+      c.adapter Faraday.default_adapter
     end
   end
 end

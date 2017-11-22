@@ -20,26 +20,39 @@ Or install it yourself as:
 
 ## Usage
 
+Configure with an authentication token
 ```
 require 'metronome'
-client = Metronome::Client.new('http://url', uid: 'uid', private_key: 'private_key')
-```
-Or auth with a token.
-
-```
-require 'metronome'
-client = Metronome::Client.new('http://url', token: 'token')
+Metronome.configure('http://url', token: 'token')
 ```
 
-Once the client is built, 
+Once the client is configured, 
 
+### Jobs
+
+```ruby
+puts Metronome::Job.all
+#<Flexirest::ResultIterator:0x007fdddb39d558>
+puts Metronome::Job.find('cloud-app-engineering-security-dev-plugins-observatoryhttp')
+#<Metronome::Job:0x007fdddb34cc70>
 ```
-puts client.job('identifier')
-puts client.jobs(embed: 'historySummary')
 
-puts client.create_job(JSON.parse(File.read('my_job.json')))
+### Runs
+
+```ruby
+
+puts Metronome::Run.all(job_id: j.id)
+#<Flexirest::ResultIterator:0x007feb06307cf0>
+puts Metronome::Run.find(job_id: 'id_one', run_id: 'id')
+#<Metronome::Run:0x007fdddb34cc70>
 ```
 
+### Metrics
+
+```ruby
+puts Metronome::Metric.all
+#<Metronome::Metric:0x007ff1810c8648>
+```
 
 ## Development
 
