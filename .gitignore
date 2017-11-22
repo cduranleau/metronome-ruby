@@ -13,3 +13,5 @@
 Gemfile.lock
 target/
 test.rb
+
+metronome-client-0.1.0.gem

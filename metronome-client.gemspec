@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['cduranleau@gmail.com']
 
   spec.summary       = 'Metronome client'
-  spec.description   = 'Metronome client'
+  spec.description   = 'Metronome client that uses flexirest'
   spec.homepage      = 'https://github.com/cduranleau/metronome-ruby'
   spec.license       = 'MIT'
 
@@ -19,11 +19,11 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'flexirest'
+  spec.add_dependency 'flexirest', '~> 1.5'
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'bundler', '~> 1.16'
+  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'rspec', '~> 3.7'
+  spec.add_development_dependency 'rubocop', '~> 0.51'
+  spec.add_development_dependency 'simplecov', '~> 0.15'
 end
