@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'metronome/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'metronome'
+  spec.name          = 'metronome-client'
   spec.version       = Metronome::VERSION
   spec.authors       = ['Christian Duranleau']
   spec.email         = ['cduranleau@gmail.com']
