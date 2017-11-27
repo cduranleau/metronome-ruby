@@ -1,16 +1,13 @@
 require 'metronome/version'
 
 require 'flexirest'
-require 'metronome/entities/job'
-require 'metronome/entities/run'
-require 'metronome/entities/schedule'
-require 'metronome/entities/metric'
+Dir["#{File.dirname(__FILE__)}/metronome/entities/*.rb"].each { |f| require f }
 
 # Configuration for Metronome connection
 module Metronome
   # Configuration for Metronome connection
   def self.configure(url, options = {})
-    raise 'You must supply a URL' if url.nil? || url.empty?
+    raise 'You must supply a URL' if url.blank?
     raise 'Missing :token' unless options.key?(:token)
 
     Flexirest::Base.base_url = url
