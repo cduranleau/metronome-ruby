@@ -33,7 +33,7 @@ Once the client is configured,
 ```ruby
 puts Metronome::Job.all
 #<Flexirest::ResultIterator:0x007fdddb39d558>
-puts Metronome::Job.find('cloud-app-engineering-security-dev-plugins-observatoryhttp')
+puts Metronome::Job.find('my_job_name')
 #<Metronome::Job:0x007fdddb34cc70>
 ```
 
